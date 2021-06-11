@@ -90,7 +90,8 @@ main(int argc, char** argv)
     std::cout << "remove *cloud_src_o nan" << endl;
     //Downsampling filtering
     pcl::VoxelGrid<pcl::PointXYZ> voxel_grid;
-    voxel_grid.setLeafSize(5.012, 5.012, 5.012);
+    // voxel_grid.setLeafSize(0.012, 0.012, 0.012);
+    voxel_grid.setLeafSize(1.012, 1.012, 1.012);
     voxel_grid.setInputCloud(cloud_src_o);
     PointCloud::Ptr cloud_src(new PointCloud);
     voxel_grid.filter(*cloud_src);
@@ -110,7 +111,8 @@ main(int argc, char** argv)
     std::cout << "remove *cloud_tgt_o nan" << endl;
 
     pcl::VoxelGrid<pcl::PointXYZ> voxel_grid_2;
-    voxel_grid_2.setLeafSize(5.01, 5.01, 5.01);
+    // voxel_grid_2.setLeafSize(0.01, 0.01, 0.01);
+    voxel_grid_2.setLeafSize(1.01, 1.01, 1.01);
     voxel_grid_2.setInputCloud(cloud_tgt_o);
     PointCloud::Ptr cloud_tgt(new PointCloud);
     voxel_grid_2.filter(*cloud_tgt);
@@ -171,7 +173,7 @@ main(int argc, char** argv)
     icp.setInputSource(cloud_src);
     icp.setInputTarget(cloud_tgt_o);
     //Set the max correspondence distance to 4cm (e.g., correspondences with higher distances will be ignored)
-    icp.setMaxCorrespondenceDistance(0.4);
+    icp.setMaxCorrespondenceDistance(0.04);
     // The maximum number of iterations
     icp.setMaximumIterations(50);
     // The difference between the two change matrices
