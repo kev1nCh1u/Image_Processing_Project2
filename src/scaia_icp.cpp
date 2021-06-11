@@ -34,7 +34,7 @@ void visualize_pcd(PointCloud::Ptr pcd_src,
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> final_h(pcd_final, 0, 0, 255);
     viewer.addPointCloud(pcd_src, src_h, "source cloud");
     viewer.addPointCloud(pcd_tgt, tgt_h, "tgt cloud");
-    viewer.addPointCloud(pcd_final, final_h, "final cloud");
+    // viewer.addPointCloud(pcd_final, final_h, "final cloud");
     //viewer.addCoordinateSystem(1.0);
     while (!viewer.wasStopped())
     {
@@ -78,8 +78,10 @@ main(int argc, char** argv)
     //Load point cloud file
     PointCloud::Ptr cloud_src_o(new PointCloud);//Origin cloud, to be registered
     pcl::io::loadPCDFile("data/STN6xyzi.pcd", *cloud_src_o);
+    // pcl::io::loadPCDFile("data/STN6xyzi.pcd", *cloud_src_o);
     PointCloud::Ptr cloud_tgt_o(new PointCloud);//Target point cloud
     pcl::io::loadPCDFile("data/STN7xyzi.pcd", *cloud_tgt_o);
+    // pcl::io::loadPCDFile("data/STN7xyzi.pcd", *cloud_tgt_o);
 
     clock_t start = clock();
     //Remove NAN point
@@ -88,12 +90,12 @@ main(int argc, char** argv)
     std::cout << "remove *cloud_src_o nan" << endl;
     //Downsampling filtering
     pcl::VoxelGrid<pcl::PointXYZ> voxel_grid;
-    voxel_grid.setLeafSize(1.012, 1.012, 1.012);
+    voxel_grid.setLeafSize(5.012, 5.012, 5.012);
     voxel_grid.setInputCloud(cloud_src_o);
     PointCloud::Ptr cloud_src(new PointCloud);
     voxel_grid.filter(*cloud_src);
     std::cout << "down size *cloud_src_o from " << cloud_src_o->size() << " to " << cloud_src->size() << endl;
-    //pcl::io::savePCDFileASCII("bunny_src_down.pcd", *cloud_src);
+    pcl::io::savePCDFileASCII("data/src_down.pcd", *cloud_src);
     //Calculate surface normal
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne_src;
     ne_src.setInputCloud(cloud_src);
@@ -108,12 +110,12 @@ main(int argc, char** argv)
     std::cout << "remove *cloud_tgt_o nan" << endl;
 
     pcl::VoxelGrid<pcl::PointXYZ> voxel_grid_2;
-    voxel_grid_2.setLeafSize(1.01, 1.01, 1.01);
+    voxel_grid_2.setLeafSize(5.01, 5.01, 5.01);
     voxel_grid_2.setInputCloud(cloud_tgt_o);
     PointCloud::Ptr cloud_tgt(new PointCloud);
     voxel_grid_2.filter(*cloud_tgt);
     std::cout << "down size *cloud_tgt_o.pcd from " << cloud_tgt_o->size() << " to " << cloud_tgt->size() << endl;
-    pcl::io::savePCDFileASCII("bunny_tgt_down.pcd", *cloud_tgt);
+    pcl::io::savePCDFileASCII("data/tgt_down.pcd", *cloud_tgt);
 
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne_tgt;
     ne_tgt.setInputCloud(cloud_tgt);
@@ -160,7 +162,7 @@ main(int argc, char** argv)
     Eigen::Matrix4f sac_trans;
     sac_trans = scia.getFinalTransformation();
     std::cout << sac_trans << endl;
-    //pcl::io::savePCDFileASCII("bunny_transformed_sac.pcd", *sac_result);
+    pcl::io::savePCDFileASCII("data/transformed_sac.pcd", *sac_result);
     clock_t sac_time = clock();
 
     //icp registration
@@ -169,7 +171,7 @@ main(int argc, char** argv)
     icp.setInputSource(cloud_src);
     icp.setInputTarget(cloud_tgt_o);
     //Set the max correspondence distance to 4cm (e.g., correspondences with higher distances will be ignored)
-    icp.setMaxCorrespondenceDistance(0.04);
+    icp.setMaxCorrespondenceDistance(0.4);
     // The maximum number of iterations
     icp.setMaximumIterations(50);
     // The difference between the two change matrices
@@ -193,7 +195,7 @@ main(int argc, char** argv)
     //Use the created transformation to transform the unfiltered input point cloud
     pcl::transformPointCloud(*cloud_src_o, *icp_result, icp_trans);
     //Save the converted input point cloud
-    //pcl::io::savePCDFileASCII("bunny_transformed_sac_ndt.pcd", *icp_result);
+    pcl::io::savePCDFileASCII("data/transformed_sac_ndt.pcd", *icp_result);
 
     //Calculation error
     Eigen::Vector3f ANGLE_origin;
