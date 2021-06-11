@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.ipp": "cpp",
+        "thread": "cpp",
+        "cmath": "cpp",
+        "string": "cpp"
+    }
+}
