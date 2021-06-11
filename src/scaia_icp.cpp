@@ -77,9 +77,9 @@ main(int argc, char** argv)
 {
     //Load point cloud file
     PointCloud::Ptr cloud_src_o(new PointCloud);//Origin cloud, to be registered
-    pcl::io::loadPCDFile("data/STN6xyzi.txt", *cloud_src_o);
+    pcl::io::loadPCDFile("data/STN6xyzi.pcd", *cloud_src_o);
     PointCloud::Ptr cloud_tgt_o(new PointCloud);//Target point cloud
-    pcl::io::loadPCDFile("data/STN7xyzi.txt", *cloud_tgt_o);
+    pcl::io::loadPCDFile("data/STN7xyzi.pcd", *cloud_tgt_o);
 
     clock_t start = clock();
     //Remove NAN point
@@ -88,11 +88,11 @@ main(int argc, char** argv)
     std::cout << "remove *cloud_src_o nan" << endl;
     //Downsampling filtering
     pcl::VoxelGrid<pcl::PointXYZ> voxel_grid;
-    voxel_grid.setLeafSize(0.012, 0.012, 0.012);
+    voxel_grid.setLeafSize(1.012, 1.012, 1.012);
     voxel_grid.setInputCloud(cloud_src_o);
     PointCloud::Ptr cloud_src(new PointCloud);
     voxel_grid.filter(*cloud_src);
-    std::cout << "down size *cloud_src_o from " << cloud_src_o->size() << "to" << cloud_src->size() << endl;
+    std::cout << "down size *cloud_src_o from " << cloud_src_o->size() << " to " << cloud_src->size() << endl;
     //pcl::io::savePCDFileASCII("bunny_src_down.pcd", *cloud_src);
     //Calculate surface normal
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne_src;
@@ -108,11 +108,11 @@ main(int argc, char** argv)
     std::cout << "remove *cloud_tgt_o nan" << endl;
 
     pcl::VoxelGrid<pcl::PointXYZ> voxel_grid_2;
-    voxel_grid_2.setLeafSize(0.01, 0.01, 0.01);
+    voxel_grid_2.setLeafSize(1.01, 1.01, 1.01);
     voxel_grid_2.setInputCloud(cloud_tgt_o);
     PointCloud::Ptr cloud_tgt(new PointCloud);
     voxel_grid_2.filter(*cloud_tgt);
-    std::cout << "down size *cloud_tgt_o.pcd from " << cloud_tgt_o->size() << "to" << cloud_tgt->size() << endl;
+    std::cout << "down size *cloud_tgt_o.pcd from " << cloud_tgt_o->size() << " to " << cloud_tgt->size() << endl;
     pcl::io::savePCDFileASCII("bunny_tgt_down.pcd", *cloud_tgt);
 
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne_tgt;

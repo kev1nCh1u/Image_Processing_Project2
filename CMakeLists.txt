@@ -10,8 +10,10 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-add_executable(pcl_test src/scaia_icp.cpp)
+add_executable(scaia_icp src/scaia_icp.cpp)
+target_link_libraries (scaia_icp ${PCL_LIBRARIES})
+install(TARGETS scaia_icp RUNTIME DESTINATION bin)
 
-target_link_libraries (pcl_test ${PCL_LIBRARIES})
-
-install(TARGETS pcl_test RUNTIME DESTINATION bin)
+add_executable(convert src/convert.cpp)
+target_link_libraries (convert ${PCL_LIBRARIES})
+install(TARGETS convert RUNTIME DESTINATION bin)

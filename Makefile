@@ -68,27 +68,6 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -101,17 +80,6 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -123,6 +91,38 @@ install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -157,17 +157,57 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named pcl_test
+# Target rules for targets named convert
 
 # Build rule for target.
-pcl_test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 pcl_test
-.PHONY : pcl_test
+convert: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 convert
+.PHONY : convert
 
 # fast build rule for target.
-pcl_test/fast:
-	$(MAKE) -f CMakeFiles/pcl_test.dir/build.make CMakeFiles/pcl_test.dir/build
-.PHONY : pcl_test/fast
+convert/fast:
+	$(MAKE) -f CMakeFiles/convert.dir/build.make CMakeFiles/convert.dir/build
+.PHONY : convert/fast
+
+#=============================================================================
+# Target rules for targets named scaia_icp
+
+# Build rule for target.
+scaia_icp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 scaia_icp
+.PHONY : scaia_icp
+
+# fast build rule for target.
+scaia_icp/fast:
+	$(MAKE) -f CMakeFiles/scaia_icp.dir/build.make CMakeFiles/scaia_icp.dir/build
+.PHONY : scaia_icp/fast
+
+src/convert.o: src/convert.cpp.o
+
+.PHONY : src/convert.o
+
+# target to build an object file
+src/convert.cpp.o:
+	$(MAKE) -f CMakeFiles/convert.dir/build.make CMakeFiles/convert.dir/src/convert.cpp.o
+.PHONY : src/convert.cpp.o
+
+src/convert.i: src/convert.cpp.i
+
+.PHONY : src/convert.i
+
+# target to preprocess a source file
+src/convert.cpp.i:
+	$(MAKE) -f CMakeFiles/convert.dir/build.make CMakeFiles/convert.dir/src/convert.cpp.i
+.PHONY : src/convert.cpp.i
+
+src/convert.s: src/convert.cpp.s
+
+.PHONY : src/convert.s
+
+# target to generate assembly for a file
+src/convert.cpp.s:
+	$(MAKE) -f CMakeFiles/convert.dir/build.make CMakeFiles/convert.dir/src/convert.cpp.s
+.PHONY : src/convert.cpp.s
 
 src/scaia_icp.o: src/scaia_icp.cpp.o
 
@@ -175,7 +215,7 @@ src/scaia_icp.o: src/scaia_icp.cpp.o
 
 # target to build an object file
 src/scaia_icp.cpp.o:
-	$(MAKE) -f CMakeFiles/pcl_test.dir/build.make CMakeFiles/pcl_test.dir/src/scaia_icp.cpp.o
+	$(MAKE) -f CMakeFiles/scaia_icp.dir/build.make CMakeFiles/scaia_icp.dir/src/scaia_icp.cpp.o
 .PHONY : src/scaia_icp.cpp.o
 
 src/scaia_icp.i: src/scaia_icp.cpp.i
@@ -184,7 +224,7 @@ src/scaia_icp.i: src/scaia_icp.cpp.i
 
 # target to preprocess a source file
 src/scaia_icp.cpp.i:
-	$(MAKE) -f CMakeFiles/pcl_test.dir/build.make CMakeFiles/pcl_test.dir/src/scaia_icp.cpp.i
+	$(MAKE) -f CMakeFiles/scaia_icp.dir/build.make CMakeFiles/scaia_icp.dir/src/scaia_icp.cpp.i
 .PHONY : src/scaia_icp.cpp.i
 
 src/scaia_icp.s: src/scaia_icp.cpp.s
@@ -193,7 +233,7 @@ src/scaia_icp.s: src/scaia_icp.cpp.s
 
 # target to generate assembly for a file
 src/scaia_icp.cpp.s:
-	$(MAKE) -f CMakeFiles/pcl_test.dir/build.make CMakeFiles/pcl_test.dir/src/scaia_icp.cpp.s
+	$(MAKE) -f CMakeFiles/scaia_icp.dir/build.make CMakeFiles/scaia_icp.dir/src/scaia_icp.cpp.s
 .PHONY : src/scaia_icp.cpp.s
 
 # Help Target
@@ -203,12 +243,16 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... edit_cache"
-	@echo "... pcl_test"
-	@echo "... list_install_components"
 	@echo "... install/local"
-	@echo "... rebuild_cache"
 	@echo "... install"
+	@echo "... edit_cache"
+	@echo "... rebuild_cache"
+	@echo "... convert"
+	@echo "... scaia_icp"
+	@echo "... list_install_components"
+	@echo "... src/convert.o"
+	@echo "... src/convert.i"
+	@echo "... src/convert.s"
 	@echo "... src/scaia_icp.o"
 	@echo "... src/scaia_icp.i"
 	@echo "... src/scaia_icp.s"
