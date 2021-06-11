@@ -34,7 +34,7 @@ void visualize_pcd(PointCloud::Ptr pcd_src,
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> final_h(pcd_final, 0, 0, 255);
     viewer.addPointCloud(pcd_src, src_h, "source cloud");
     viewer.addPointCloud(pcd_tgt, tgt_h, "tgt cloud");
-    // viewer.addPointCloud(pcd_final, final_h, "final cloud");
+    viewer.addPointCloud(pcd_final, final_h, "final cloud");
     //viewer.addCoordinateSystem(1.0);
     while (!viewer.wasStopped())
     {
