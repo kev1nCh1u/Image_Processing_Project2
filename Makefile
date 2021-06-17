@@ -103,6 +103,16 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -113,16 +123,6 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -170,6 +170,19 @@ txt_to_pcd/fast:
 .PHONY : txt_to_pcd/fast
 
 #=============================================================================
+# Target rules for targets named scaia_icp
+
+# Build rule for target.
+scaia_icp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 scaia_icp
+.PHONY : scaia_icp
+
+# fast build rule for target.
+scaia_icp/fast:
+	$(MAKE) -f CMakeFiles/scaia_icp.dir/build.make CMakeFiles/scaia_icp.dir/build
+.PHONY : scaia_icp/fast
+
+#=============================================================================
 # Target rules for targets named pcd_rotate_pan
 
 # Build rule for target.
@@ -183,17 +196,44 @@ pcd_rotate_pan/fast:
 .PHONY : pcd_rotate_pan/fast
 
 #=============================================================================
-# Target rules for targets named scaia_icp
+# Target rules for targets named icp
 
 # Build rule for target.
-scaia_icp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 scaia_icp
-.PHONY : scaia_icp
+icp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 icp
+.PHONY : icp
 
 # fast build rule for target.
-scaia_icp/fast:
-	$(MAKE) -f CMakeFiles/scaia_icp.dir/build.make CMakeFiles/scaia_icp.dir/build
-.PHONY : scaia_icp/fast
+icp/fast:
+	$(MAKE) -f CMakeFiles/icp.dir/build.make CMakeFiles/icp.dir/build
+.PHONY : icp/fast
+
+src/icp.o: src/icp.cpp.o
+
+.PHONY : src/icp.o
+
+# target to build an object file
+src/icp.cpp.o:
+	$(MAKE) -f CMakeFiles/icp.dir/build.make CMakeFiles/icp.dir/src/icp.cpp.o
+.PHONY : src/icp.cpp.o
+
+src/icp.i: src/icp.cpp.i
+
+.PHONY : src/icp.i
+
+# target to preprocess a source file
+src/icp.cpp.i:
+	$(MAKE) -f CMakeFiles/icp.dir/build.make CMakeFiles/icp.dir/src/icp.cpp.i
+.PHONY : src/icp.cpp.i
+
+src/icp.s: src/icp.cpp.s
+
+.PHONY : src/icp.s
+
+# target to generate assembly for a file
+src/icp.cpp.s:
+	$(MAKE) -f CMakeFiles/icp.dir/build.make CMakeFiles/icp.dir/src/icp.cpp.s
+.PHONY : src/icp.cpp.s
 
 src/pcd_rotate_pan.o: src/pcd_rotate_pan.cpp.o
 
@@ -287,10 +327,14 @@ help:
 	@echo "... install"
 	@echo "... txt_to_pcd"
 	@echo "... rebuild_cache"
-	@echo "... pcd_rotate_pan"
-	@echo "... edit_cache"
-	@echo "... scaia_icp"
 	@echo "... list_install_components"
+	@echo "... scaia_icp"
+	@echo "... edit_cache"
+	@echo "... pcd_rotate_pan"
+	@echo "... icp"
+	@echo "... src/icp.o"
+	@echo "... src/icp.i"
+	@echo "... src/icp.s"
 	@echo "... src/pcd_rotate_pan.o"
 	@echo "... src/pcd_rotate_pan.i"
 	@echo "... src/pcd_rotate_pan.s"

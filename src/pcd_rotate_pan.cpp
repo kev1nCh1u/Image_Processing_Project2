@@ -84,7 +84,7 @@ int main(int argc, char **argv)
     Eigen::Matrix4f transform_1 = Eigen::Matrix4f::Identity();
 
     // Define a rotation matrix (see https://en.wikipedia.org/wiki/Rotation_matrix)
-    float theta = M_PI / 4; // radians angle
+    float theta = M_PI / 2; // radians angle
     transform_1(0, 0) = cos(theta);
     transform_1(0, 1) = -sin(theta);
     transform_1(1, 0) = sin(theta);
@@ -92,7 +92,7 @@ int main(int argc, char **argv)
     // (row, column)
 
     // Define a 2.5 m translation on the X axis.
-    transform_1(0, 3) = 2.5;
+    transform_1(0, 3) = 0;
 
     // print transformation matrix
     printf("Method #1: using a Matrix4f\n");
@@ -104,7 +104,7 @@ int main(int argc, char **argv)
     Eigen::Affine3f transform_2 = Eigen::Affine3f::Identity();
 
     // Define a 2.5 m translation on the X axis.
-    transform_2.translation() << 2.5, 0.0, 0.0;
+    transform_2.translation() << 0.0, 0.0, 0.0;
 
     // the same rotation as before; rotate theta radians on the Z axis
     transform_2.rotate(Eigen::AngleAxisf(theta, Eigen::Vector3f::UnitZ()));

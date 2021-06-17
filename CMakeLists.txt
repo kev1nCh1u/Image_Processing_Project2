@@ -21,3 +21,7 @@ install(TARGETS txt_to_pcd RUNTIME DESTINATION bin)
 add_executable(pcd_rotate_pan src/pcd_rotate_pan.cpp)
 target_link_libraries (pcd_rotate_pan ${PCL_LIBRARIES})
 install(TARGETS pcd_rotate_pan RUNTIME DESTINATION bin)
+
+add_executable(icp src/icp.cpp)
+target_link_libraries (icp ${PCL_LIBRARIES})
+install(TARGETS icp RUNTIME DESTINATION bin)
