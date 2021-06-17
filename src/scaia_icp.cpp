@@ -21,14 +21,14 @@ typedef pcl::PointCloud<PointT> PointCloud;
 
 //Point cloud visualization
 void visualize_pcd(PointCloud::Ptr pcd_src,
-    PointCloud::Ptr pcd_tgt,
-    PointCloud::Ptr pcd_final)
+                   PointCloud::Ptr pcd_tgt,
+                   PointCloud::Ptr pcd_final)
 {
     //int vp_1, vp_2;
     // Create a PCLVisualizer object
     pcl::visualization::PCLVisualizer viewer("registration Viewer");
     //viewer.createViewPort (0.0, 0, 0.5, 1.0, vp_1);
-   // viewer.createViewPort (0.5, 0, 1.0, 1.0, vp_2);
+    // viewer.createViewPort (0.5, 0, 1.0, 1.0, vp_2);
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> src_h(pcd_src, 0, 255, 0);
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> tgt_h(pcd_tgt, 255, 0, 0);
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> final_h(pcd_final, 0, 0, 255);
@@ -44,7 +44,7 @@ void visualize_pcd(PointCloud::Ptr pcd_src,
 }
 
 //Calculate the rotation angle from the rotation and translation matrix
-void matrix2angle(Eigen::Matrix4f& result_trans, Eigen::Vector3f& result_angle)
+void matrix2angle(Eigen::Matrix4f &result_trans, Eigen::Vector3f &result_angle)
 {
     double ax, ay, az;
     if (result_trans(2, 0) == 1 || result_trans(2, 0) == -1)
@@ -72,14 +72,13 @@ void matrix2angle(Eigen::Matrix4f& result_trans, Eigen::Vector3f& result_angle)
     result_angle << ax, ay, az;
 }
 
-int
-main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     //Load point cloud file
-    PointCloud::Ptr cloud_src_o(new PointCloud);//Origin cloud, to be registered
+    PointCloud::Ptr cloud_src_o(new PointCloud); //Origin cloud, to be registered
     pcl::io::loadPCDFile("data/STN6xyzi.pcd", *cloud_src_o);
     // pcl::io::loadPCDFile("data/STN6xyzi.pcd", *cloud_src_o);
-    PointCloud::Ptr cloud_tgt_o(new PointCloud);//Target point cloud
+    PointCloud::Ptr cloud_tgt_o(new PointCloud); //Target point cloud
     pcl::io::loadPCDFile("data/STN7xyzi.pcd", *cloud_tgt_o);
     // pcl::io::loadPCDFile("data/STN7xyzi.pcd", *cloud_tgt_o);
 
@@ -100,9 +99,9 @@ main(int argc, char** argv)
     //Calculate surface normal
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne_src;
     ne_src.setInputCloud(cloud_src);
-    pcl::search::KdTree< pcl::PointXYZ>::Ptr tree_src(new pcl::search::KdTree< pcl::PointXYZ>());
+    pcl::search::KdTree<pcl::PointXYZ>::Ptr tree_src(new pcl::search::KdTree<pcl::PointXYZ>());
     ne_src.setSearchMethod(tree_src);
-    pcl::PointCloud<pcl::Normal>::Ptr cloud_src_normals(new pcl::PointCloud< pcl::Normal>);
+    pcl::PointCloud<pcl::Normal>::Ptr cloud_src_normals(new pcl::PointCloud<pcl::Normal>);
     ne_src.setRadiusSearch(0.02);
     ne_src.compute(*cloud_src_normals);
 
@@ -121,9 +120,9 @@ main(int argc, char** argv)
 
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne_tgt;
     ne_tgt.setInputCloud(cloud_tgt);
-    pcl::search::KdTree< pcl::PointXYZ>::Ptr tree_tgt(new pcl::search::KdTree< pcl::PointXYZ>());
+    pcl::search::KdTree<pcl::PointXYZ>::Ptr tree_tgt(new pcl::search::KdTree<pcl::PointXYZ>());
     ne_tgt.setSearchMethod(tree_tgt);
-    pcl::PointCloud<pcl::Normal>::Ptr cloud_tgt_normals(new pcl::PointCloud< pcl::Normal>);
+    pcl::PointCloud<pcl::Normal>::Ptr cloud_tgt_normals(new pcl::PointCloud<pcl::Normal>);
     //ne_tgt.setKSearch(20);
     ne_tgt.setRadiusSearch(0.02);
     ne_tgt.compute(*cloud_tgt_normals);
@@ -189,7 +188,7 @@ main(int argc, char** argv)
     cout << "icp time: " << (double)(end - sac_time) / (double)CLOCKS_PER_SEC << " s" << endl;
 
     std::cout << "ICP has converged:" << icp.hasConverged()
-        << " score: " << icp.getFitnessScore() << std::endl;
+              << " score: " << icp.getFitnessScore() << std::endl;
     Eigen::Matrix4f icp_trans;
     icp_trans = icp.getFinalTransformation();
     //cout<<"ransformationProbability"<<icp.getTransformationProbability()<<endl;
@@ -208,11 +207,11 @@ main(int argc, char** argv)
     error_x = fabs(ANGLE_result(0)) - fabs(ANGLE_origin(0));
     error_y = fabs(ANGLE_result(1)) - fabs(ANGLE_origin(1));
     error_z = fabs(ANGLE_result(2)) - fabs(ANGLE_origin(2));
-    cout << "original angle in x y z:\n" << ANGLE_origin << endl;
+    cout << "original angle in x y z:\n"
+         << ANGLE_origin << endl;
     cout << "error in aixs_x: " << error_x << "  error in aixs_y: " << error_y << "  error in aixs_z: " << error_z << endl;
 
     //Visualization
     visualize_pcd(cloud_src_o, cloud_tgt_o, icp_result);
     return (0);
 }
-

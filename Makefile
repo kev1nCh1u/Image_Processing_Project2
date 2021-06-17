@@ -80,6 +80,18 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -111,18 +123,6 @@ list_install_components:
 list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -170,6 +170,19 @@ txt_to_pcd/fast:
 .PHONY : txt_to_pcd/fast
 
 #=============================================================================
+# Target rules for targets named pcd_rotate_pan
+
+# Build rule for target.
+pcd_rotate_pan: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pcd_rotate_pan
+.PHONY : pcd_rotate_pan
+
+# fast build rule for target.
+pcd_rotate_pan/fast:
+	$(MAKE) -f CMakeFiles/pcd_rotate_pan.dir/build.make CMakeFiles/pcd_rotate_pan.dir/build
+.PHONY : pcd_rotate_pan/fast
+
+#=============================================================================
 # Target rules for targets named scaia_icp
 
 # Build rule for target.
@@ -181,6 +194,33 @@ scaia_icp: cmake_check_build_system
 scaia_icp/fast:
 	$(MAKE) -f CMakeFiles/scaia_icp.dir/build.make CMakeFiles/scaia_icp.dir/build
 .PHONY : scaia_icp/fast
+
+src/pcd_rotate_pan.o: src/pcd_rotate_pan.cpp.o
+
+.PHONY : src/pcd_rotate_pan.o
+
+# target to build an object file
+src/pcd_rotate_pan.cpp.o:
+	$(MAKE) -f CMakeFiles/pcd_rotate_pan.dir/build.make CMakeFiles/pcd_rotate_pan.dir/src/pcd_rotate_pan.cpp.o
+.PHONY : src/pcd_rotate_pan.cpp.o
+
+src/pcd_rotate_pan.i: src/pcd_rotate_pan.cpp.i
+
+.PHONY : src/pcd_rotate_pan.i
+
+# target to preprocess a source file
+src/pcd_rotate_pan.cpp.i:
+	$(MAKE) -f CMakeFiles/pcd_rotate_pan.dir/build.make CMakeFiles/pcd_rotate_pan.dir/src/pcd_rotate_pan.cpp.i
+.PHONY : src/pcd_rotate_pan.cpp.i
+
+src/pcd_rotate_pan.s: src/pcd_rotate_pan.cpp.s
+
+.PHONY : src/pcd_rotate_pan.s
+
+# target to generate assembly for a file
+src/pcd_rotate_pan.cpp.s:
+	$(MAKE) -f CMakeFiles/pcd_rotate_pan.dir/build.make CMakeFiles/pcd_rotate_pan.dir/src/pcd_rotate_pan.cpp.s
+.PHONY : src/pcd_rotate_pan.cpp.s
 
 src/scaia_icp.o: src/scaia_icp.cpp.o
 
@@ -244,12 +284,16 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install/local"
+	@echo "... install"
 	@echo "... txt_to_pcd"
 	@echo "... rebuild_cache"
+	@echo "... pcd_rotate_pan"
 	@echo "... edit_cache"
 	@echo "... scaia_icp"
 	@echo "... list_install_components"
-	@echo "... install"
+	@echo "... src/pcd_rotate_pan.o"
+	@echo "... src/pcd_rotate_pan.i"
+	@echo "... src/pcd_rotate_pan.s"
 	@echo "... src/scaia_icp.o"
 	@echo "... src/scaia_icp.i"
 	@echo "... src/scaia_icp.s"

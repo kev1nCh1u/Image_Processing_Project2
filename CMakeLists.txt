@@ -17,3 +17,7 @@ install(TARGETS scaia_icp RUNTIME DESTINATION bin)
 add_executable(txt_to_pcd src/txt_to_pcd.cpp)
 target_link_libraries (txt_to_pcd ${PCL_LIBRARIES})
 install(TARGETS txt_to_pcd RUNTIME DESTINATION bin)
+
+add_executable(pcd_rotate_pan src/pcd_rotate_pan.cpp)
+target_link_libraries (pcd_rotate_pan ${PCL_LIBRARIES})
+install(TARGETS pcd_rotate_pan RUNTIME DESTINATION bin)
