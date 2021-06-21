@@ -91,7 +91,7 @@ int main(int argc, char **argv)
 
     int iterations = 35;
     icp.setTransformationEpsilon (1e-10);   //Set the minimum conversion difference for the termination condition
-	icp.setMaxCorrespondenceDistance(100); //Set the maximum distance between corresponding point pairs (this value has a greater impact on the registration result).
+	icp.setMaxCorrespondenceDistance(100000); //Set the maximum distance between corresponding point pairs (this value has a greater impact on the registration result).
 	icp.setEuclideanFitnessEpsilon(0.1);  //Set the convergence condition that the sum of the mean square error is less than the threshold, and stop the iteration;
 	icp.setMaximumIterations(iterations); //Maximum number of iterations, icp is an iterative method, at most these times (if combined with visualization and display successively, the number can be set to 1);  
 	
@@ -103,7 +103,14 @@ int main(int argc, char **argv)
     icp.align(*output_cloud);
     std::cout << "icp align finish" << std::endl;
 
-    pcl::transformPointCloud(*cloud_src_o, *output_cloud, icp.getFinalTransformation());
+    std::cout << "ICP has converged:" << icp.hasConverged()
+              << " score: " << icp.getFitnessScore() << std::endl;
+    Eigen::Matrix4f icp_trans;
+    icp_trans = icp.getFinalTransformation();
+    //cout<<"ransformationProbability"<<icp.getTransformationProbability()<<endl;
+    std::cout << icp_trans << endl;
+
+    pcl::transformPointCloud(*cloud_src_o, *output_cloud, icp_trans);
 
     //Visualization
     visualize_pcd(cloud_src_o, cloud_tgt_o, output_cloud);
