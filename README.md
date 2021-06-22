@@ -1,14 +1,23 @@
 # Image_Processing_Project2
 
-### run
-    cmake .
+## start
+
+    mkdir build
+    cd build
+
+    cmake ..
     make
+
+    cmake -GNinja ..
+    ninja
+
+    ./icp
     ./txt_to_pcd
 
 
-### git ignore defore
+## git ignore defore
     git rm -rf --cached .
 
 
-### view
+## view
 http://lidarview.com/

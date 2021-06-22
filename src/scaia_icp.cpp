@@ -76,11 +76,11 @@ int main(int argc, char **argv)
 {
     //Load point cloud file
     PointCloud::Ptr cloud_src_o(new PointCloud); //Origin cloud, to be registered
-    pcl::io::loadPCDFile("data/STN6xyzi.pcd", *cloud_src_o);
-    // pcl::io::loadPCDFile("data/STN6xyzi.pcd", *cloud_src_o);
+    pcl::io::loadPCDFile("../data/STN6xyzi.pcd", *cloud_src_o);
+    // pcl::io::loadPCDFile("../data/STN6xyzi.pcd", *cloud_src_o);
     PointCloud::Ptr cloud_tgt_o(new PointCloud); //Target point cloud
-    pcl::io::loadPCDFile("data/STN7xyzi.pcd", *cloud_tgt_o);
-    // pcl::io::loadPCDFile("data/STN7xyzi.pcd", *cloud_tgt_o);
+    pcl::io::loadPCDFile("../data/STN7xyzi.pcd", *cloud_tgt_o);
+    // pcl::io::loadPCDFile("../data/STN7xyzi.pcd", *cloud_tgt_o);
 
     clock_t start = clock();
     //Remove NAN point
@@ -95,7 +95,7 @@ int main(int argc, char **argv)
     PointCloud::Ptr cloud_src(new PointCloud);
     voxel_grid.filter(*cloud_src);
     std::cout << "down size *cloud_src_o from " << cloud_src_o->size() << " to " << cloud_src->size() << endl;
-    pcl::io::savePCDFileASCII("data/src_down.pcd", *cloud_src);
+    pcl::io::savePCDFileASCII("../data/src_down.pcd", *cloud_src);
     //Calculate surface normal
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne_src;
     ne_src.setInputCloud(cloud_src);
@@ -116,7 +116,7 @@ int main(int argc, char **argv)
     PointCloud::Ptr cloud_tgt(new PointCloud);
     voxel_grid_2.filter(*cloud_tgt);
     std::cout << "down size *cloud_tgt_o.pcd from " << cloud_tgt_o->size() << " to " << cloud_tgt->size() << endl;
-    pcl::io::savePCDFileASCII("data/tgt_down.pcd", *cloud_tgt);
+    pcl::io::savePCDFileASCII("../data/tgt_down.pcd", *cloud_tgt);
 
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne_tgt;
     ne_tgt.setInputCloud(cloud_tgt);
@@ -163,7 +163,7 @@ int main(int argc, char **argv)
     Eigen::Matrix4f sac_trans;
     sac_trans = scia.getFinalTransformation();
     std::cout << sac_trans << endl;
-    pcl::io::savePCDFileASCII("data/transformed_sac.pcd", *sac_result);
+    pcl::io::savePCDFileASCII("../data/transformed_sac.pcd", *sac_result);
     clock_t sac_time = clock();
 
     //icp registration
@@ -196,7 +196,7 @@ int main(int argc, char **argv)
     //Use the created transformation to transform the unfiltered input point cloud
     pcl::transformPointCloud(*cloud_src_o, *icp_result, icp_trans);
     //Save the converted input point cloud
-    pcl::io::savePCDFileASCII("data/transformed_sac_ndt.pcd", *icp_result);
+    pcl::io::savePCDFileASCII("../data/transformed_sac_ndt.pcd", *icp_result);
 
     //Calculation error
     Eigen::Vector3f ANGLE_origin;

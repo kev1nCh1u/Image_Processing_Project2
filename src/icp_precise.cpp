@@ -11,11 +11,11 @@ int main(int argc, char **argv)
 	pcl::console::TicToc time;
 	// Load the first scan point cloud data as the target cloud
 	pcl::PointCloud<pcl::PointXYZ>::Ptr target_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-	pcl::io::loadPCDFile<pcl::PointXYZ>("data/STN6xyzi.pcd", *target_cloud);
+	pcl::io::loadPCDFile<pcl::PointXYZ>("../data/STN6xyzi.pcd", *target_cloud);
 
 	// Load the second scan point cloud data obtained from the new perspective as the source point cloud
 	pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-	pcl::io::loadPCDFile<pcl::PointXYZ>("data/STN7xyzi.pcd", *input_cloud);
+	pcl::io::loadPCDFile<pcl::PointXYZ>("../data/STN7xyzi.pcd", *input_cloud);
 
 	cout << "Read from the target point cloud" << target_cloud->size() << "Points" << endl;
 	cout << "Read from the source point cloud" << input_cloud->size() << "Points" << endl;

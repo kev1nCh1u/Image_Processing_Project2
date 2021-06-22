@@ -18,7 +18,7 @@ typedef struct tagPOINT_3D
 
 int main()
 {
-	string filePath = "data/STN7xyzi";
+	string filePath = "../data/STN7xyzi";
 	cout << "filePath: " << filePath << endl;
 
 	/////Load txt data
