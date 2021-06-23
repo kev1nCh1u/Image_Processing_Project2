@@ -64,6 +64,8 @@
         "set": "cpp",
         "string_view": "cpp",
         "core": "cpp",
-        "numericaldiff": "cpp"
+        "numericaldiff": "cpp",
+        "bit": "cpp",
+        "variant": "cpp"
     }
 }
