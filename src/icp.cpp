@@ -76,12 +76,25 @@ int main(int argc, char **argv)
 {
     //Load point cloud file
     PointCloud::Ptr cloud_src_o(new PointCloud); //Origin cloud, to be registered
-    pcl::io::loadPCDFile("../data/STN6xyzi.pcd", *cloud_src_o);
-    // pcl::io::loadPCDFile("../data/STN6xyzi.pcd", *cloud_src_o);
+    pcl::io::loadPCDFile("../data/STN6xyzi.txt.pcd", *cloud_src_o);
+    // pcl::io::loadPCDFile("../data/STN6xyzi.txt.pcd", *cloud_src_o);
     PointCloud::Ptr cloud_tgt_o(new PointCloud); //Target point cloud
-    pcl::io::loadPCDFile("../data/STN7xyzi.pcd", *cloud_tgt_o);
-    // pcl::io::loadPCDFile("../data/STN7xyzi.pcd", *cloud_tgt_o);
+    pcl::io::loadPCDFile("../data/STN7xyzi.txt.pcd", *cloud_tgt_o);
+    // pcl::io::loadPCDFile("../data/STN7xyzi.txt.pcd", *cloud_tgt_o);
+    // pcl::io::loadPCDFile("../data/transformed_cloud.pcd", *cloud_tgt_o);
     std::cout << "load data finish" << std::endl;
+
+    //kevin trans cloud
+    Eigen::Affine3f transform_2 = Eigen::Affine3f::Identity();
+    // Define a 2.5 m translation on the X axis.
+    transform_2.translation() << 0, -5.5, 0.0;
+    // the same rotation as before; rotate theta radians on the Z axis
+    transform_2.rotate(Eigen::AngleAxisf(-0.18, Eigen::Vector3f::UnitZ()));
+    // print transformation matrix
+    printf("\nMethod #2: using an Affine3f\n");
+    std::cout << transform_2.matrix() << std::endl;
+    pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud(new pcl::PointCloud<pcl::PointXYZ>());
+    pcl::transformPointCloud(*cloud_tgt_o, *cloud_tgt_o, transform_2);
 
     //icp registration
     PointCloud::Ptr icp_result(new PointCloud);
@@ -89,7 +102,7 @@ int main(int argc, char **argv)
     icp.setInputSource(cloud_src_o);
     icp.setInputTarget(cloud_tgt_o);
 
-    int iterations = 35;
+    int iterations = 100;
     icp.setTransformationEpsilon (1e-10);   //Set the minimum conversion difference for the termination condition
 	icp.setMaxCorrespondenceDistance(100000); //Set the maximum distance between corresponding point pairs (this value has a greater impact on the registration result).
 	icp.setEuclideanFitnessEpsilon(0.1);  //Set the convergence condition that the sum of the mean square error is less than the threshold, and stop the iteration;
