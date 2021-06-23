@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	else
 	{
 		// filePath = "../data/STN7xyzi.txt";
-		filePath = argv[2];
+		filePath = argv[1];
 		cout << "filePath: " << filePath << endl;
 	}
 
@@ -70,6 +70,8 @@ int main(int argc, char *argv[])
 	std::cerr << "Saved " << cloud.points.size() << " data points to txt2pcd.pcd." << std::endl;
 	for (size_t i = 0; i < cloud.points.size(); ++i)
 		std::cerr << "    " << cloud.points[i].x << " " << cloud.points[i].y << " " << cloud.points[i].z << std::endl;
+
+	std::cout << "save at" << filePath << ".pcd" << std::endl;
 
 	system("pause");
 	return 0;
