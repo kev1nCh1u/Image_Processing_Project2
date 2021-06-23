@@ -73,6 +73,5 @@ int main(int argc, char *argv[])
 
 	std::cout << "save at" << filePath << ".pcd" << std::endl;
 
-	system("pause");
 	return 0;
 }
