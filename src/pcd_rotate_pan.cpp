@@ -85,11 +85,22 @@ int main(int argc, char **argv)
 
     // Define a rotation matrix (see https://en.wikipedia.org/wiki/Rotation_matrix)
     float theta = M_PI / 2; // radians angle
-    transform_1(0, 0) = cos(theta);
-    transform_1(0, 1) = -sin(theta);
-    transform_1(1, 0) = sin(theta);
-    transform_1(1, 1) = cos(theta);
+    // transform_1(0, 0) = cos(theta);
+    // transform_1(0, 1) = -sin(theta);
+    // transform_1(1, 0) = sin(theta);
+    // transform_1(1, 1) = cos(theta);
     // (row, column)
+
+    // kevin
+    transform_1(0, 0) = 0.098 * M_PI / 180;
+    transform_1(0, 1) = 39.402 * M_PI / 180;
+    transform_1(0, 2) = 39.402 * M_PI / 180;
+    transform_1(1, 0) = 10.305 * M_PI / 180;
+    transform_1(1, 1) = 36.654 * M_PI / 180;
+    transform_1(1, 2) = 39.402 * M_PI / 180;
+    transform_1(2, 0) = 2.136 * M_PI / 180;
+    transform_1(2, 1) = 33.904 * M_PI / 180;
+    transform_1(2, 2) = -8.943 * M_PI / 180;
 
     // Define a 2.5 m translation on the X axis.
     transform_1(0, 3) = 0;
@@ -116,7 +127,8 @@ int main(int argc, char **argv)
     // Perform the transformation and save the result in the newly created transformed_cloud
     pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud(new pcl::PointCloud<pcl::PointXYZ>());
     // can use transform_1 or transform_2; t they are the same
-    pcl::transformPointCloud(*source_cloud, *transformed_cloud, transform_2);
+    // pcl::transformPointCloud(*source_cloud, *transformed_cloud, transform_2);
+    pcl::transformPointCloud(*source_cloud, *transformed_cloud, transform_1);
 
     // Visualization
     // Visualizes the original point cloud as white, the transformed point cloud is red, and sets the axis, background color, and point display size.

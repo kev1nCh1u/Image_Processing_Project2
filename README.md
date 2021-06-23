@@ -12,6 +12,7 @@
     ninja
 
     ./txt_to_pcd "../data/STN6xyzi.txt"
+    ./pcd_rotate_pan ../data/STN6xyzi.txt.pcd
     ./icp
 
 

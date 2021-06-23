@@ -76,11 +76,11 @@ int main(int argc, char **argv)
 {
     //Load point cloud file
     PointCloud::Ptr cloud_src_o(new PointCloud); //Origin cloud, to be registered
-    pcl::io::loadPCDFile("../data/STN6xyzi.pcd", *cloud_src_o);
-    // pcl::io::loadPCDFile("../data/STN6xyzi.pcd", *cloud_src_o);
+    pcl::io::loadPCDFile("../data/STN6xyzi.txt.pcd", *cloud_src_o);
+    // pcl::io::loadPCDFile("../data/STN6xyzi.txt.pcd", *cloud_src_o);
     PointCloud::Ptr cloud_tgt_o(new PointCloud); //Target point cloud
-    pcl::io::loadPCDFile("../data/STN7xyzi.pcd", *cloud_tgt_o);
-    // pcl::io::loadPCDFile("../data/STN7xyzi.pcd", *cloud_tgt_o);
+    pcl::io::loadPCDFile("../data/STN7xyzi.txt.pcd", *cloud_tgt_o);
+    // pcl::io::loadPCDFile("../data/STN7xyzi.txt.pcd", *cloud_tgt_o);
 
     clock_t start = clock();
     //Remove NAN point
