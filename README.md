@@ -11,8 +11,8 @@
     cmake -GNinja ..
     ninja
 
+    ./txt_to_pcd "../data/STN6xyzi.txt"
     ./icp
-    ./txt_to_pcd
 
 
 ## git ignore defore
