@@ -16,8 +16,8 @@ def draw_registration_result(source, target, transformation):
                                       up=[-0.3402, -0.9189, -0.1996])
 
 # 3
-source = o3d.io.read_point_cloud("../../test_data/ICP/cloud_bin_0.pcd")
-target = o3d.io.read_point_cloud("../../test_data/ICP/cloud_bin_1.pcd")
+source = o3d.io.read_point_cloud("data\STN6xyzi.txt.pcd")
+target = o3d.io.read_point_cloud("data\STN7xyzi.txt.pcd")
 threshold = 0.02
 trans_init = np.asarray([[0.862, 0.011, -0.507, 0.5],
                          [-0.139, 0.967, -0.215, 0.7],
