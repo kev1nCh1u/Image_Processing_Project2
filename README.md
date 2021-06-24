@@ -27,3 +27,6 @@
 
 ## view
 http://lidarview.com/
+
+## ref
+http://www.open3d.org/docs/release/tutorial/pipelines/icp_registration.html
