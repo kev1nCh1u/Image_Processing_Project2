@@ -1,6 +1,6 @@
 # Image_Processing_Project2
 
-## start
+## start cpp
 
     mkdir build
     cd build
@@ -16,6 +16,10 @@
     ./icp
     ./interactive_icp 20
 
+
+## start pyhton
+    pip install open3d
+    pip install numpy
 
 ## git ignore defore
     git rm -rf --cached .
