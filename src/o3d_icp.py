@@ -51,11 +51,40 @@ print(reg_p2p.transformation)
 draw_registration_result(source, target, reg_p2p.transformation)
 
 # 7
-print("Apply point-to-plane ICP")
-reg_p2l = o3d.pipelines.registration.registration_icp(
-    source, target, threshold, trans_init,
-    o3d.pipelines.registration.TransformationEstimationPointToPlane())
-print(reg_p2l)
-print("Transformation is:")
-print(reg_p2l.transformation)
-draw_registration_result(source, target, reg_p2l.transformation)
+# print("Apply point-to-plane ICP")
+# reg_p2l = o3d.pipelines.registration.registration_icp(
+#     source, target, threshold, trans_init,
+#     o3d.pipelines.registration.TransformationEstimationPointToPlane())
+# print(reg_p2l)
+# print("Transformation is:")
+# print(reg_p2l.transformation)
+# draw_registration_result(source, target, reg_p2l.transformation)
+
+# 7-1
+# print("Robust point-to-plane ICP, threshold={}:".format(threshold))
+# loss = o3d.pipelines.registration.TukeyLoss(k=sigma)
+# print("Using robust loss:", loss)
+# p2l = o3d.pipelines.registration.TransformationEstimationPointToPlane(loss)
+# reg_p2l = o3d.pipelines.registration.registration_icp(source_noisy, target,
+#                                                       threshold, trans_init,
+#                                                       p2l)
+# print(reg_p2l)
+# print("Transformation is:")
+# print(reg_p2l.transformation)
+# draw_registration_result(source, target, reg_p2l.transformation)
+
+# 8
+def refine_registration(source, target, source_fpfh, target_fpfh, voxel_size):
+    distance_threshold = voxel_size * 0.4
+    print(":: Point-to-plane ICP registration is applied on original point")
+    print("   clouds to refine the alignment. This time we use a strict")
+    print("   distance threshold %.3f." % distance_threshold)
+    result = o3d.pipelines.registration.registration_icp(
+        source, target, distance_threshold, result_ransac.transformation,
+        o3d.pipelines.registration.TransformationEstimationPointToPlane())
+    return result
+
+result_icp = refine_registration(source, target, source_fpfh, target_fpfh,
+                                 voxel_size)
+print(result_icp)
+draw_registration_result(source, target, result_icp.transformation)

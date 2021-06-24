@@ -20,6 +20,7 @@
 ## start pyhton
     pip install open3d
     pip install numpy
+    pip install open3d-python
 
 ## git ignore defore
     git rm -rf --cached .
