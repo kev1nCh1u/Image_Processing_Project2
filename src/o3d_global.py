@@ -17,6 +17,7 @@ def draw_registration_result(source, target, transformation):
 def preprocess_point_cloud(pcd, voxel_size):
     print(":: Downsample with a voxel size %.3f." % voxel_size)
     pcd_down = pcd.voxel_down_sample(voxel_size)
+    # pcd_down = o3d.geometry.voxel_down_sample(pcd,voxel_size=0.05)
 
     radius_normal = voxel_size * 2
     print(":: Estimate normal with search radius %.3f." % radius_normal)
@@ -35,8 +36,11 @@ def prepare_dataset(voxel_size):
     print(":: Load two point clouds and disturb initial pose.")
     source = o3d.io.read_point_cloud("data\STN6xyzi.txt.pcd")
     target = o3d.io.read_point_cloud("data\STN7xyzi.txt.pcd")
-    trans_init = np.asarray([[0.0, 0.0, 1.0, 0.0], [1.0, 0.0, 0.0, 0.0],
-                             [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0]])
+    # trans_init = np.asarray([[0.0, 0.0, 1.0, 0.0], [1.0, 0.0, 0.0, 0.0],
+    #                          [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0]])
+    trans_init = np.asarray([[1, 0, 0, 0],
+                             [0, 1, 0, 0],
+                             [0, 0, 1, 0], [0.0, 0.0, 0.0, 1.0]])
     source.transform(trans_init)
     draw_registration_result(source, target, np.identity(4))
 
@@ -77,6 +81,7 @@ if __name__ == "__main__":
     source, target, source_down, target_down, source_fpfh, target_fpfh = \
             prepare_dataset(voxel_size)
 
+    # ransac
     result_ransac = execute_global_registration(source_down, target_down,
                                                 source_fpfh, target_fpfh,
                                                 voxel_size)
@@ -84,7 +89,20 @@ if __name__ == "__main__":
     draw_registration_result(source_down, target_down,
                              result_ransac.transformation)
 
-    result_icp = refine_registration(source, target, source_fpfh, target_fpfh,
-                                     voxel_size)
-    print(result_icp)
-    draw_registration_result(source, target, result_icp.transformation)
+    # Point-to-plane ICP
+    # result_icp = refine_registration(source, target, source_fpfh, target_fpfh,
+    #                                  voxel_size)
+    # print(result_icp)
+    # draw_registration_result(source, target, result_icp.transformation)
+
+    # point-to-point ICP
+    threshold = 200
+    print("Apply point-to-point ICP")
+    reg_p2p = o3d.registration.registration_icp(
+        source, target, threshold, result_ransac.transformation,
+        o3d.registration.TransformationEstimationPointToPoint())
+    print(reg_p2p)
+    print("Transformation is:")
+    print(reg_p2p.transformation)
+    print("")
+    draw_registration_result(source, target, reg_p2p.transformation)
