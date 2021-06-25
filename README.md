@@ -1,6 +1,6 @@
 # Image_Processing_Project2
 
-![Alt text](img/Screenshot from_2021-06-25_11-38-50.png?raw=true "Title")
+![Alt text](img/Screenshot_from_2021-06-25_11-38-50.png?raw=true "Title")
 
 ## start cpp
 
