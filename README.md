@@ -1,5 +1,7 @@
 # Image_Processing_Project2
 
+![Alt text](img/Screenshot from_2021-06-25_11-38-50.png?raw=true "Title")
+
 ## start cpp
 
     mkdir build
