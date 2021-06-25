@@ -86,10 +86,10 @@ int main(int argc, char **argv)
 
     //kevin trans cloud
     Eigen::Affine3f transform_2 = Eigen::Affine3f::Identity();
-    // Define a 2.5 m translation on the X axis.
-    transform_2.translation() << 0, -5.5, 0.0;
     // the same rotation as before; rotate theta radians on the Z axis
     transform_2.rotate(Eigen::AngleAxisf(-0.18, Eigen::Vector3f::UnitZ()));
+    // Define a 2.5 m translation on the X axis.
+    transform_2.translation() << 0.3,-0.3, 0.0;
     // print transformation matrix
     printf("\nMethod #2: using an Affine3f\n");
     std::cout << transform_2.matrix() << std::endl;
@@ -102,16 +102,23 @@ int main(int argc, char **argv)
     icp.setInputSource(cloud_src_o);
     icp.setInputTarget(cloud_tgt_o);
 
-    int iterations = 100;
-    icp.setTransformationEpsilon (1e-10);   //Set the minimum conversion difference for the termination condition
-	icp.setMaxCorrespondenceDistance(100000); //Set the maximum distance between corresponding point pairs (this value has a greater impact on the registration result).
-	icp.setEuclideanFitnessEpsilon(0.1);  //Set the convergence condition that the sum of the mean square error is less than the threshold, and stop the iteration;
+    double minimum = 1e-10; //1e-10
+    int maximum = 100; //100
+    double convergence = 0.1; //0.1
+    int iterations = 35; //35
+    icp.setTransformationEpsilon (minimum);   //Set the minimum conversion difference for the termination condition
+	icp.setMaxCorrespondenceDistance(convergence); //Set the maximum distance between corresponding point pairs (this value has a greater impact on the registration result).
+	icp.setEuclideanFitnessEpsilon(convergence);  //Set the convergence condition that the sum of the mean square error is less than the threshold, and stop the iteration;
 	icp.setMaximumIterations(iterations); //Maximum number of iterations, icp is an iterative method, at most these times (if combined with visualization and display successively, the number can be set to 1);  
-	
+	std::cout << "minimum: " << minimum << std::endl;
+	std::cout << "maximum: " << maximum << std::endl;
+	std::cout << "convergence: " << convergence << std::endl;
+	std::cout << "iterations: " << iterations << std::endl;
+
     //Set the max correspondence distance to 4cm (e.g., correspondences with higher distances will be ignored)
     pcl::PointCloud<pcl::PointXYZ>::Ptr output_cloud (new pcl::PointCloud<pcl::PointXYZ>);
     
-    //Perform alignment
+    /**************** Perform alignment **************************/
     std::cout << "icp align ..." << std::endl;
     icp.align(*output_cloud);
     std::cout << "icp align finish" << std::endl;
@@ -124,6 +131,20 @@ int main(int argc, char **argv)
     std::cout << icp_trans << endl;
 
     pcl::transformPointCloud(*cloud_src_o, *output_cloud, icp_trans);
+
+
+    /**************** Calculation error ****************************/
+    Eigen::Vector3f ANGLE_origin;
+    ANGLE_origin << 0, 0, M_PI / 5;
+    double error_x, error_y, error_z;
+    Eigen::Vector3f ANGLE_result;
+    matrix2angle(icp_trans, ANGLE_result);
+    error_x = fabs(ANGLE_result(0)) - fabs(ANGLE_origin(0));
+    error_y = fabs(ANGLE_result(1)) - fabs(ANGLE_origin(1));
+    error_z = fabs(ANGLE_result(2)) - fabs(ANGLE_origin(2));
+    cout << "original angle in x y z:\n" << ANGLE_origin << endl;
+    cout << "error in aixs_x: " << error_x << "  error in aixs_y: " << error_y << "  error in aixs_z: " << error_z << endl;
+
 
     //Visualization
     visualize_pcd(cloud_src_o, cloud_tgt_o, output_cloud);
